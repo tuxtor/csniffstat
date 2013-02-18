@@ -35,7 +35,9 @@ int main(int nArg, char* pszArgs[]) {
     } else {
         printf("Looks like the nic was preconfigured %d\n", atoi(pszArgs[1]));
         inicId = atoi(pszArgs[1]);
-        netPcap.setNetworkDevice(inicId);
+        //netPcap.setNetworkDevice(inicId);
+        char* nicName="lo";
+        netPcap.setNetworkDevice(inicId, nicName);//Use allways lo
     }
     
     //If there is an error with the nics
@@ -51,7 +53,7 @@ int main(int nArg, char* pszArgs[]) {
         cin >> istatus;
         if (istatus == 0) {
             //Si ya esta corriento imprimir que ya esta corriendo
-
+            //runCapture();
         } else if (istatus == 1) {
             restartAll();
         } else if (istatus < 0 && istatus > 2) {

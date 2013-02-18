@@ -53,6 +53,8 @@ void NetPcap::chooseNetworkDevice(int &inicId) {
     }
 }
 
+//Work with numbers
+
 void NetPcap::setNetworkDevice(int &inicId) {
     char *dev;
     pcap_if_t *alldevs;
@@ -76,9 +78,31 @@ void NetPcap::setNetworkDevice(int &inicId) {
     }
 }
 
+//Work with chars
+
+void NetPcap::setNetworkDevice(int &inicId, char* snicName) {
+    char *dev;
+    pcap_if_t *alldevs;
+
+    pcap_findalldevs(&alldevs, errbuf);
+    int i = 0;
+    for (device = alldevs; device; device = device->next) {
+        printf("%d. %s \n", i++, device->name);
+        if (strcmp(device->name, snicName)==0) {
+            break;
+        }
+    }
+
+    if (i > 0) {
+        printf("Selected %d - %s device\n", i, device->name);
+    } else {
+        printf("No NICs available\n");
+        inicId = -2;
+    }
+}
+
 void NetPcap::openNetworkDevice() {
-    int snaplen = 64 * 1024; // Captures whitouth truncating in promiscous mode
-    if ((pcap = pcap_open_live(device->name, snaplen, 1, 20, errbuf)) == NULL) {
+    if ((pcap = pcap_open_live(device->name, SNAP_LEN, 1, 20, errbuf)) == NULL) {
         fprintf(stderr, "\nError opening adapter\n");
         return;
     }
@@ -87,7 +111,7 @@ void NetPcap::openNetworkDevice() {
     char expresion[expressionF.size()];
     strcpy(expresion, expressionF.c_str());
     /* Compile and apply the filter */
-    cout<<"Expresion: "<<expresion<<endl;
+    cout << "Expresion: " << expresion << endl;
     if (pcap_compile(pcap, &filter, expresion, 0, net) == -1) {
         fprintf(stderr, "Couldn't parse filter %s: %s\n", expresion, pcap_geterr(pcap));
         return;
@@ -99,7 +123,7 @@ void NetPcap::openNetworkDevice() {
 }
 
 void NetPcap::run() {
-
+    
 }
 
 void NetPcap::close() {
