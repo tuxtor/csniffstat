@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/PacketsBuffer.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/FilterStatus.o \
 	${OBJECTDIR}/XMLProperties.o \
@@ -55,7 +56,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lpcap
+LDLIBSOPTIONS=-lpcap -ltbb
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -64,6 +65,11 @@ LDLIBSOPTIONS=-lpcap
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/csniffstat: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	g++ -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/csniffstat ${OBJECTFILES} ${LDLIBSOPTIONS} 
+
+${OBJECTDIR}/PacketsBuffer.o: PacketsBuffer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/PacketsBuffer.o PacketsBuffer.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}

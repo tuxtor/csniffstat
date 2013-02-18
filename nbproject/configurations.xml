@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>FilterStatus.h</itemPath>
       <itemPath>NetPcap.h</itemPath>
+      <itemPath>PacketsBuffer.h</itemPath>
       <itemPath>XMLProperties.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -17,6 +18,7 @@
                    projectFiles="true">
       <itemPath>FilterStatus.cpp</itemPath>
       <itemPath>NetPcap.cpp</itemPath>
+      <itemPath>PacketsBuffer.cpp</itemPath>
       <itemPath>XMLProperties.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
@@ -44,6 +46,7 @@
           <commandlineTool>g++</commandlineTool>
           <linkerLibItems>
             <linkerOptionItem>-lpcap</linkerOptionItem>
+            <linkerOptionItem>-ltbb</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

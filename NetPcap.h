@@ -7,7 +7,21 @@
 
 #ifndef NETPCAP_H
 #define	NETPCAP_H
+#include <pcap.h>
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <list>
+#include <vector>
+#include <ctype.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
+#include "XMLProperties.h"
+#include "PacketsBuffer.h"
 // <editor-fold defaultstate="collapsed" desc="struct definitions">
 /* default snap length (maximum bytes per packet to capture) */
 #define SNAP_LEN 1518
@@ -36,9 +50,10 @@ struct sniff_ip {
         u_char  ip_ttl;                 /* time to live */
         u_char  ip_p;                   /* protocol */
         u_short ip_sum;                 /* checksum */
-        //struct  in_addr ip_src,ip_dst;  /* source and dest address */
+        struct  in_addr ip_src,ip_dst;  /* source and dest address */
 };
-
+#define IP_HL(ip)               (((ip)->ip_vhl) & 0x0f)
+#define IP_V(ip)                (((ip)->ip_vhl) >> 4)
 typedef u_int tcp_seq;
 
 struct sniff_tcp {
@@ -62,16 +77,11 @@ struct sniff_tcp {
         u_short th_sum;                 /* checksum */
         u_short th_urp;                 /* urgent pointer */
 };
+
 //</editor-fold>
 
-#include <pcap.h>
-#include <iostream>
-#include <cstring>
-#include <cstdlib>
-#include <list>
-#include <vector>
+PacketsBuffer buffer;
 
-#include "XMLProperties.h"
 class NetPcap {
 public:
     NetPcap();
@@ -84,6 +94,7 @@ public:
     void run();
     void close();
     std::string buildExpression();
+    static int packagesCount;
 private:
     pcap_if_t *device;
     pcap_t *pcap;
@@ -93,11 +104,12 @@ private:
     //std::string buildExpression();
     XMLProperties xmlProps;
     
+    
+    
     void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet);
+    //void count_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet);
     void print_payload(const u_char *payload, int len);
     void print_hex_ascii_line(const u_char *payload, int len, int offset);
-    void print_app_banner(void);
-    void print_app_usage(void);
 };
 
 #endif	/* NETPCAP_H */
