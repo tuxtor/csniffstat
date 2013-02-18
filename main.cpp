@@ -15,7 +15,6 @@ using namespace std;
 
 //XML Scanner
 //DataManager
-NetPcap netPcap;
 //ThreadDispatcher
 int istatus;
 int inicId = -1;
@@ -24,11 +23,13 @@ void runCapture();
 void shutdown();
 void restartAll();
 void setNic();
-
+NetPcap netPcap;
+NetPcap *pnetPcap;
+PacketsBuffer packetsBuffer;
 int main(int nArg, char* pszArgs[]) {
     //Initializing objects
     //Parsing XML properties
-
+    pnetPcap = &netPcap; 
     //si no hay argumentos preguntar por una nic
     if (nArg <= 1) {
         printf("Asking for a nic\n");

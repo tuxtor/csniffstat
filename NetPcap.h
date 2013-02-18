@@ -80,6 +80,7 @@ struct sniff_tcp {
 
 //</editor-fold>
 
+
 class NetPcap {
 public:
     NetPcap();
@@ -92,7 +93,8 @@ public:
     void run();
     void close();
     std::string buildExpression();
-    static int packagesCount;
+    int packagesCount;
+    void count_packet_handler(const struct pcap_pkthdr *header, const u_char *packet);
 private:
     pcap_if_t *device;
     pcap_t *pcap;
@@ -101,10 +103,8 @@ private:
     bpf_u_int32 net;
     //std::string buildExpression();
     XMLProperties xmlProps;
-    
-    
-    
     void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet);
+    
     //void count_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet);
     void print_payload(const u_char *payload, int len);
     void print_hex_ascii_line(const u_char *payload, int len, int offset);

@@ -122,14 +122,23 @@ void NetPcap::openNetworkDevice() {
         return;
     }
 }
-int packagesCount;
-PacketsBuffer packetsBuffer;
+
+/*Wrapper function from C to C++*/
+extern NetPcap *pnetPcap;
 void count_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet) {
+    /*pcappacket cappacket = {packet, header};
+    packetsBuffer.addPacket(cappacket);
+    */
+    
+    pnetPcap->count_packet_handler(header, packet);
+}
+
+void NetPcap::count_packet_handler(const struct pcap_pkthdr *header, const u_char *packet) {
+    //cout << "Metodo llamado desde el objeto\n";
     pcappacket cappacket = {packet, header};
     packetsBuffer.addPacket(cappacket);
-    
-    packagesCount++;
-    printf("Packet number %d:\n", packagesCount);
+    /*packagesCount++;
+    printf("Packet number %d:\n", packagesCount);*/
 }
 
 void NetPcap::run() {
