@@ -123,12 +123,13 @@ void NetPcap::openNetworkDevice() {
     }
 }
 int packagesCount;
-
+PacketsBuffer packetsBuffer;
 void count_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet) {
     pcappacket cappacket = {packet, header};
-    buffer.addPacket(cappacket);
+    packetsBuffer.addPacket(cappacket);
+    
     packagesCount++;
-    printf("\nPacket number %d:\n", packagesCount);
+    printf("Packet number %d:\n", packagesCount);
 }
 
 void NetPcap::run() {

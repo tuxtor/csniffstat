@@ -10,8 +10,9 @@
 #include <iostream>
 #include <cstring>
 //---
-using namespace std;
 #include "NetPcap.h"
+using namespace std;
+
 //XML Scanner
 //DataManager
 NetPcap netPcap;

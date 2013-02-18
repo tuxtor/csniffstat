@@ -27,7 +27,7 @@ public:
     tbb::concurrent_queue<pcappacket> * getAnalisysList(int start, int end);
 private:
     //TODO volver estatico
-    static tbb::concurrent_bounded_queue<pcappacket> packetsList;
+    tbb::concurrent_bounded_queue<pcappacket> packetsList;
     int packetCount;
 };
 

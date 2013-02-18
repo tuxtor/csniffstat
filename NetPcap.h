@@ -80,8 +80,6 @@ struct sniff_tcp {
 
 //</editor-fold>
 
-PacketsBuffer buffer;
-
 class NetPcap {
 public:
     NetPcap();
