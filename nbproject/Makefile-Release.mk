@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/PacketsBuffer.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/FilterStatus.o \
+	${OBJECTDIR}/DBData.o \
 	${OBJECTDIR}/XMLProperties.o \
 	${OBJECTDIR}/NetPcap.o
 
@@ -80,6 +81,11 @@ ${OBJECTDIR}/FilterStatus.o: FilterStatus.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/FilterStatus.o FilterStatus.cpp
+
+${OBJECTDIR}/DBData.o: DBData.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/DBData.o DBData.cpp
 
 ${OBJECTDIR}/XMLProperties.o: XMLProperties.cpp 
 	${MKDIR} -p ${OBJECTDIR}

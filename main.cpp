@@ -23,13 +23,12 @@ void runCapture();
 void shutdown();
 void restartAll();
 void setNic();
-NetPcap netPcap;
-NetPcap *pnetPcap;
+
 PacketsBuffer packetsBuffer;
+NetPcap netPcap(&packetsBuffer);
 int main(int nArg, char* pszArgs[]) {
     //Initializing objects
     //Parsing XML properties
-    pnetPcap = &netPcap; 
     //si no hay argumentos preguntar por una nic
     if (nArg <= 1) {
         printf("Asking for a nic\n");
@@ -78,7 +77,8 @@ void setNic() {
 void runCapture() {
     printf("Running analysis\n");
     netPcap.openNetworkDevice();
-    netPcap.run();
+    //netPcap.run();
+    netPcap.start();
 }
 
 void shutdown() {
@@ -88,4 +88,6 @@ void shutdown() {
 
 void restartAll() {
     printf("restarting\n");
+    shutdown();
+    runCapture();
 }

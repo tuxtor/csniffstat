@@ -11,11 +11,15 @@
 #include "NetPcap.h"
 #include "FilterStatus.h"
 #include "XMLProperties.h"
-#include <boost/lexical_cast.hpp>
+
 using namespace std;
 
 NetPcap::NetPcap() {
     //this->packagesCount=0;
+}
+
+NetPcap::NetPcap(PacketsBuffer *buffer) {
+    this->packetsBuffer = buffer;
 }
 
 NetPcap::NetPcap(const NetPcap& orig) {
@@ -124,19 +128,19 @@ void NetPcap::openNetworkDevice() {
 }
 
 /*Wrapper function from C to C++*/
-extern NetPcap *pnetPcap;
+extern NetPcap netPcap;
 void count_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet) {
     /*pcappacket cappacket = {packet, header};
     packetsBuffer.addPacket(cappacket);
     */
     
-    pnetPcap->count_packet_handler(header, packet);
+    netPcap.count_packet_handler(header, packet);
 }
 
 void NetPcap::count_packet_handler(const struct pcap_pkthdr *header, const u_char *packet) {
     //cout << "Metodo llamado desde el objeto\n";
     pcappacket cappacket = {packet, header};
-    packetsBuffer.addPacket(cappacket);
+    packetsBuffer->addPacket(cappacket);
     /*packagesCount++;
     printf("Packet number %d:\n", packagesCount);*/
 }
@@ -145,12 +149,27 @@ void NetPcap::run() {
     //pcap_loop(pcap, -1, NetPcap::count_packet, NULL);
     cout<<"Capturing packages\n";
     pcap_loop(pcap, -1, count_packet, NULL);
+    
+}
 
+/**
+ * Worker method
+ **/
+void NetPcap::start() {
+    analyzerThread = boost::thread(&NetPcap::run, this);
+}
+
+void NetPcap::join() {
+    analyzerThread.join();
+    analyzerThread.detach();
+    cout<<"Detached thread\n";
 }
 
 void NetPcap::close() {
     pcap_breakloop(pcap);
     pcap_close(pcap);
+    join();
+    
 }
 
 string NetPcap::buildExpression() {

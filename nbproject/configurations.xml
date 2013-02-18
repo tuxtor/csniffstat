@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>DBData.h</itemPath>
       <itemPath>FilterStatus.h</itemPath>
       <itemPath>NetPcap.h</itemPath>
       <itemPath>PacketsBuffer.h</itemPath>
@@ -16,6 +17,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>DBData.cpp</itemPath>
       <itemPath>FilterStatus.cpp</itemPath>
       <itemPath>NetPcap.cpp</itemPath>
       <itemPath>PacketsBuffer.cpp</itemPath>
@@ -47,6 +49,7 @@
           <linkerLibItems>
             <linkerOptionItem>-lpcap</linkerOptionItem>
             <linkerOptionItem>-ltbb</linkerOptionItem>
+            <linkerOptionItem>-lboost_thread</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

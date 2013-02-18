@@ -19,6 +19,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <boost/lexical_cast.hpp>
+#include <boost/thread.hpp>
 
 #include "XMLProperties.h"
 #include "PacketsBuffer.h"
@@ -84,13 +86,16 @@ struct sniff_tcp {
 class NetPcap {
 public:
     NetPcap();
+    NetPcap(PacketsBuffer *buffer);
     NetPcap(const NetPcap& orig);
     virtual ~NetPcap();
     void chooseNetworkDevice(int &inicId);
     void setNetworkDevice(int &inicId);
     void setNetworkDevice(int &inicId, char* snicName);
     void openNetworkDevice();
+    void start();
     void run();
+    void join();
     void close();
     std::string buildExpression();
     int packagesCount;
@@ -104,10 +109,12 @@ private:
     //std::string buildExpression();
     XMLProperties xmlProps;
     void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet);
-    
+    PacketsBuffer *packetsBuffer;
     //void count_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet);
     void print_payload(const u_char *payload, int len);
     void print_hex_ascii_line(const u_char *payload, int len, int offset);
+    //
+    boost::thread analyzerThread;
 };
 
 #endif	/* NETPCAP_H */

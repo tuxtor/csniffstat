@@ -19,7 +19,7 @@ PacketsBuffer::~PacketsBuffer() {
 
 void PacketsBuffer::addPacket(pcappacket packet){
     packetsList.push(packet);
-    cout << "Size " << packetsList.size() << endl;
+    cout << packetCount++ << endl;
 };
 
 tbb::concurrent_queue<pcappacket> PacketsBuffer::getPacketsAnalisysSublist(int start, int end){
