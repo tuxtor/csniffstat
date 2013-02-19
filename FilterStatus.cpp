@@ -8,13 +8,13 @@
 #include "FilterStatus.h"
 
 FilterStatus::FilterStatus() {
-    tcp = false;
+    tcp = true;
     //TODO restore this filter
     udp = true;
-    icmp = false;
-    tcpSYN = false;
-    tcpFIN = false;
-    tcpACK = false;
+    icmp = true;
+    tcpSYN = true;
+    tcpFIN = true;
+    tcpACK = true;
     numberOfActiveFilters = 0;
 }
 

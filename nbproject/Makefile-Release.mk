@@ -37,6 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/PacketsBuffer.o \
+	${OBJECTDIR}/CountersBuffer.o \
 	${OBJECTDIR}/PacketAnalyser.o \
 	${OBJECTDIR}/FilterStatus.o \
 	${OBJECTDIR}/DBData.o \
@@ -78,6 +79,11 @@ ${OBJECTDIR}/PacketsBuffer.o: PacketsBuffer.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/PacketsBuffer.o PacketsBuffer.cpp
+
+${OBJECTDIR}/CountersBuffer.o: CountersBuffer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/CountersBuffer.o CountersBuffer.cpp
 
 ${OBJECTDIR}/PacketAnalyser.o: PacketAnalyser.cpp 
 	${MKDIR} -p ${OBJECTDIR}

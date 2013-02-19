@@ -45,16 +45,19 @@ void PacketAnalyserDispatcher::run() {
 void PacketAnalyserDispatcher::runAnalysis() {
     tbb::concurrent_vector<pcappacket> analysisVector = packetsBuffer->getAnalisysVector();
     int copiedSize = analysisVector.size();
-    //cout << "Vector size " << analysisVector.size() << endl;
+    //cout << "Vector size " << copiedSize << endl;
     //cout << "Before cleaning" << packetsBuffer->getSize() << endl;
     //boost::posix_time::seconds workTime(1);
     //boost::this_thread::sleep(workTime);
-
-    PacketAnalyser& a = *new(tbb::task::allocate_root()) PacketAnalyser(&analysisVector, 0, analysisVector.size());
+    //tbb::task_scheduler_init init(8);
+    PacketAnalyser& a = *new(tbb::task::allocate_root()) PacketAnalyser(&analysisVector, &countersBuffer, 0, copiedSize);
     tbb::task::spawn_root_and_wait(a);
 
     packetsBuffer->cleanHeadElements(copiedSize);
     //cout << "After cleaning" << packetsBuffer->getSize() << endl;
+    //countersBuffer.PrintValues();
+    //persist data
+    countersBuffer.ZeroCounters();
 }
 
 void PacketAnalyserDispatcher::join() {

@@ -87,6 +87,7 @@ void runCapture() {
 
 void shutdown() {
     printf("Shutting down\n");
+    dispatcher.countersBuffer.PrintAndRestartGrandTotal();
     netPcap.close();
     dispatcher.close();
 }

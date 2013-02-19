@@ -11,6 +11,8 @@
 
 #include "NetPcap.h"
 #include "PacketAnalyser.h"
+#include "CountersBuffer.h"
+
 class PacketAnalyserDispatcher {
 public:
     PacketAnalyserDispatcher();
@@ -23,11 +25,11 @@ public:
     void join();
     void close();
     void interrupt();
+    CountersBuffer countersBuffer;
 private:
     boost::thread dispatcherThread;
     PacketsBuffer *packetsBuffer;
-    
-//    std::vector<pcappacket> toSimpleVector(tbb::concurrent_queue<pcappacket> &queue);
+    //std::vector<pcappacket> toSimpleVector(tbb::concurrent_queue<pcappacket> &queue);
 };
 
 #endif	/* PACKETANALYSERDISPATCHER_H */
