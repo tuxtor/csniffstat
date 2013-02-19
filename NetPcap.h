@@ -97,6 +97,7 @@ public:
     void run();
     void join();
     void close();
+    void interrupt();
     std::string buildExpression();
     int packagesCount;
     void count_packet_handler(const struct pcap_pkthdr *header, const u_char *packet);

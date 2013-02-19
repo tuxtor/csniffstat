@@ -24,10 +24,12 @@ public:
     virtual ~PacketsBuffer();
     void addPacket(pcappacket packet);
     tbb::concurrent_queue<pcappacket> getPacketsAnalisysSublist(int start, int end);
-    tbb::concurrent_queue<pcappacket> * getAnalisysList(int start, int end);
+    tbb::concurrent_queue<pcappacket> getAnalisysList();
+    void cleanHeadElements(int size);
+    int getSize();
 private:
     //TODO volver estatico
-    tbb::concurrent_bounded_queue<pcappacket> packetsList;
+    tbb::concurrent_queue<pcappacket> packetsList;
     int packetCount;
 };
 

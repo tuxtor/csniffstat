@@ -7,6 +7,8 @@
       <itemPath>DBData.h</itemPath>
       <itemPath>FilterStatus.h</itemPath>
       <itemPath>NetPcap.h</itemPath>
+      <itemPath>PacketAnalyser.h</itemPath>
+      <itemPath>PacketAnalyserDispatcher.h</itemPath>
       <itemPath>PacketsBuffer.h</itemPath>
       <itemPath>XMLProperties.h</itemPath>
     </logicalFolder>
@@ -20,6 +22,8 @@
       <itemPath>DBData.cpp</itemPath>
       <itemPath>FilterStatus.cpp</itemPath>
       <itemPath>NetPcap.cpp</itemPath>
+      <itemPath>PacketAnalyser.cpp</itemPath>
+      <itemPath>PacketAnalyserDispatcher.cpp</itemPath>
       <itemPath>PacketsBuffer.cpp</itemPath>
       <itemPath>XMLProperties.cpp</itemPath>
       <itemPath>main.cpp</itemPath>

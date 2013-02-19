@@ -165,11 +165,15 @@ void NetPcap::join() {
     cout<<"Detached thread\n";
 }
 
+void NetPcap::interrupt() {
+    analyzerThread.interrupt();
+}
+
 void NetPcap::close() {
     pcap_breakloop(pcap);
     pcap_close(pcap);
+    interrupt();
     join();
-    
 }
 
 string NetPcap::buildExpression() {

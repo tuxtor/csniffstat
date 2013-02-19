@@ -35,11 +35,13 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/PacketsBuffer.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/PacketsBuffer.o \
+	${OBJECTDIR}/PacketAnalyser.o \
 	${OBJECTDIR}/FilterStatus.o \
 	${OBJECTDIR}/DBData.o \
 	${OBJECTDIR}/XMLProperties.o \
+	${OBJECTDIR}/PacketAnalyserDispatcher.o \
 	${OBJECTDIR}/NetPcap.o
 
 
@@ -67,15 +69,20 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/csniffstat: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/csniffstat ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
+${OBJECTDIR}/main.o: main.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+
 ${OBJECTDIR}/PacketsBuffer.o: PacketsBuffer.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/PacketsBuffer.o PacketsBuffer.cpp
 
-${OBJECTDIR}/main.o: main.cpp 
+${OBJECTDIR}/PacketAnalyser.o: PacketAnalyser.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/PacketAnalyser.o PacketAnalyser.cpp
 
 ${OBJECTDIR}/FilterStatus.o: FilterStatus.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -91,6 +98,11 @@ ${OBJECTDIR}/XMLProperties.o: XMLProperties.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/XMLProperties.o XMLProperties.cpp
+
+${OBJECTDIR}/PacketAnalyserDispatcher.o: PacketAnalyserDispatcher.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/PacketAnalyserDispatcher.o PacketAnalyserDispatcher.cpp
 
 ${OBJECTDIR}/NetPcap.o: NetPcap.cpp 
 	${MKDIR} -p ${OBJECTDIR}

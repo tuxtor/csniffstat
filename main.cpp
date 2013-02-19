@@ -11,6 +11,7 @@
 #include <cstring>
 //---
 #include "NetPcap.h"
+#include "PacketAnalyserDispatcher.h"
 using namespace std;
 
 //XML Scanner
@@ -26,6 +27,8 @@ void setNic();
 
 PacketsBuffer packetsBuffer;
 NetPcap netPcap(&packetsBuffer);
+PacketAnalyserDispatcher dispatcher(&packetsBuffer);
+
 int main(int nArg, char* pszArgs[]) {
     //Initializing objects
     //Parsing XML properties
@@ -79,15 +82,16 @@ void runCapture() {
     netPcap.openNetworkDevice();
     //netPcap.run();
     netPcap.start();
+    dispatcher.start();
 }
 
 void shutdown() {
     printf("Shutting down\n");
     netPcap.close();
+    dispatcher.close();
 }
 
 void restartAll() {
     printf("restarting\n");
     shutdown();
-    runCapture();
 }
