@@ -19,7 +19,7 @@ PacketsBuffer::~PacketsBuffer() {
 
 void PacketsBuffer::addPacket(pcappacket packet){
     packetsList.push(packet);
-    cout << packetCount++ << endl;
+    //cout << packetCount++ << endl;
 }
 
 void PacketsBuffer::cleanHeadElements(int size){
@@ -47,7 +47,7 @@ tbb::concurrent_vector<pcappacket> PacketsBuffer::getAnalisysVector(){
 tbb::concurrent_vector<pcappacket> PacketsBuffer::toVector(tbb::concurrent_queue<pcappacket> &queue) {
     //copy
     tbb::concurrent_vector<pcappacket> returnVector;
-    cout << "Copying queue size " << queue.unsafe_size() << endl;
+    //cout << "Copying queue size " << queue.unsafe_size() << endl;
     pcappacket packet;
     int i=0;
     while (queue.try_pop(packet)) {

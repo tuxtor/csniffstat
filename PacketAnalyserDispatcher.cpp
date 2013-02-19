@@ -6,6 +6,7 @@
  */
 
 #include "PacketAnalyserDispatcher.h"
+
 using namespace std;
 
 PacketAnalyserDispatcher::PacketAnalyserDispatcher() {
@@ -26,57 +27,35 @@ void PacketAnalyserDispatcher::start() {
 }
 
 void PacketAnalyserDispatcher::run() {
-    boost::posix_time::seconds workTime(5);
+    /*boost::posix_time::seconds workTime(5);
     cout << "Worker: running" << endl;
-    boost::this_thread::sleep(workTime);
-    runAnalysis();
-    cout << "Worker: finished" << endl;
+    boost::this_thread::sleep(workTime);*/
+    while (true) {
+        try{
+            runAnalysis();
+            boost::posix_time::seconds workTime(2);
+            boost::this_thread::sleep(workTime);
+        }catch(boost::thread_interrupted const&){
+            break;
+        }
+    }
 
 }
 
 void PacketAnalyserDispatcher::runAnalysis() {
-    //copy from buffer
-    //tbb::concurrent_queue<pcappacket> analysisList = packetsBuffer->getAnalisysList();
-    //int copiedSize = analysisList.unsafe_size();
-    //Generating vector
-
-    //cout << "I copied " << copiedSize << endl;
     tbb::concurrent_vector<pcappacket> analysisVector = packetsBuffer->getAnalisysVector();
     int copiedSize = analysisVector.size();
-    //std::vector<pcappacket> analysisVector = toSimpleVector(analysisList);
-    cout << "Vector size " << analysisVector.size() << endl;
-    //Do analysis
-    //pop from buffer
-    cout << "Before cleaning" << packetsBuffer->getSize() << endl;
-    boost::posix_time::seconds workTime(1);
-    boost::this_thread::sleep(workTime);
-    packetsBuffer->cleanHeadElements(copiedSize);
-    cout << "After cleaning" << packetsBuffer->getSize() << endl;
-}
+    //cout << "Vector size " << analysisVector.size() << endl;
+    //cout << "Before cleaning" << packetsBuffer->getSize() << endl;
+    //boost::posix_time::seconds workTime(1);
+    //boost::this_thread::sleep(workTime);
 
-//std::vector<pcappacket> PacketAnalyserDispatcher::toSimpleVector(tbb::concurrent_queue<pcappacket>& queue) {
-//    //copy
-//    std::vector<pcappacket> returnVector;
-//    cout << "Copying queue size " << queue.unsafe_size() << endl;
-//    pcappacket packet;
-//    int i=0;
-//    while (queue.try_pop(packet)) {
-//        returnVector.push_back(packet);
-//        cout << "Poping " << i++ << endl;
-//    }
-//
-//    /*for (int i = 0; i < queue.unsafe_size(); i++) {
-//        pcappacket * packet= new pcappacket;
-//        if (queue.try_pop(*packet)) {
-//            returnVector.push_back(*packet);
-//            cout << "Poping " << i << endl;
-//        }else{
-//            cout << "Poping error";
-//        }
-//        cout << "Pop execution" << i << endl;
-//    }*/
-//    return returnVector;
-//};
+    PacketAnalyser& a = *new(tbb::task::allocate_root()) PacketAnalyser(&analysisVector, 0, analysisVector.size());
+    tbb::task::spawn_root_and_wait(a);
+
+    packetsBuffer->cleanHeadElements(copiedSize);
+    //cout << "After cleaning" << packetsBuffer->getSize() << endl;
+}
 
 void PacketAnalyserDispatcher::join() {
     dispatcherThread.join();

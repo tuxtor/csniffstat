@@ -7,8 +7,10 @@
 
 #ifndef PACKETANALYSERDISPATCHER_H
 #define	PACKETANALYSERDISPATCHER_H
-#include "NetPcap.h"
 
+
+#include "NetPcap.h"
+#include "PacketAnalyser.h"
 class PacketAnalyserDispatcher {
 public:
     PacketAnalyserDispatcher();
