@@ -24,15 +24,16 @@ public:
     PacketsBuffer(const PacketsBuffer& orig);
     virtual ~PacketsBuffer();
     void addPacket(pcappacket packet);
-    tbb::concurrent_queue<pcappacket> getPacketsAnalisysSublist(int start, int end);
-    tbb::concurrent_queue<pcappacket> getAnalisysList();
-    pcappacket* getAnalisysArray();
+    
+    tbb::concurrent_vector<pcappacket> getAnalisysVector();
     void cleanHeadElements(int size);
     int getSize();
 private:
     //TODO volver estatico
     tbb::concurrent_queue<pcappacket> packetsList;
     int packetCount;
+    tbb::concurrent_queue<pcappacket> getAnalisysList();
+    tbb::concurrent_vector<pcappacket> toVector(tbb::concurrent_queue<pcappacket> &queue);
 };
 
 #endif	/* PACKETSBUFFER_H */

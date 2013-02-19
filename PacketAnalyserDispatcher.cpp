@@ -36,12 +36,13 @@ void PacketAnalyserDispatcher::run() {
 
 void PacketAnalyserDispatcher::runAnalysis() {
     //copy from buffer
-    tbb::concurrent_queue<pcappacket> analysisList = packetsBuffer->getAnalisysList();
-    int copiedSize = analysisList.unsafe_size();
+    //tbb::concurrent_queue<pcappacket> analysisList = packetsBuffer->getAnalisysList();
+    //int copiedSize = analysisList.unsafe_size();
     //Generating vector
 
-    cout << "I copied " << copiedSize << endl;
-    tbb::concurrent_vector<pcappacket> analysisVector = toVector(analysisList);
+    //cout << "I copied " << copiedSize << endl;
+    tbb::concurrent_vector<pcappacket> analysisVector = packetsBuffer->getAnalisysVector();
+    int copiedSize = analysisVector.size();
     //std::vector<pcappacket> analysisVector = toSimpleVector(analysisList);
     cout << "Vector size " << analysisVector.size() << endl;
     //Do analysis
@@ -52,18 +53,6 @@ void PacketAnalyserDispatcher::runAnalysis() {
     packetsBuffer->cleanHeadElements(copiedSize);
     cout << "After cleaning" << packetsBuffer->getSize() << endl;
 }
-
-tbb::concurrent_vector<pcappacket> PacketAnalyserDispatcher::toVector(tbb::concurrent_queue<pcappacket> &queue) {
-    //copy
-    tbb::concurrent_vector<pcappacket> returnVector;
-    cout << "Copying queue size " << queue.unsafe_size() << endl;
-    pcappacket packet;
-    int i=0;
-    while (queue.try_pop(packet)) {
-        returnVector.push_back(packet);
-    }
-    return returnVector;
-};
 
 //std::vector<pcappacket> PacketAnalyserDispatcher::toSimpleVector(tbb::concurrent_queue<pcappacket>& queue) {
 //    //copy
