@@ -9,6 +9,7 @@
 #define	PACKETSBUFFER_H
 
 #include<tbb/concurrent_queue.h>
+#include<tbb/concurrent_vector.h>
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
@@ -25,6 +26,7 @@ public:
     void addPacket(pcappacket packet);
     tbb::concurrent_queue<pcappacket> getPacketsAnalisysSublist(int start, int end);
     tbb::concurrent_queue<pcappacket> getAnalisysList();
+    pcappacket* getAnalisysArray();
     void cleanHeadElements(int size);
     int getSize();
 private:

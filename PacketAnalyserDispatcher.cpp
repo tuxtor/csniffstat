@@ -7,6 +7,7 @@
 
 #include "PacketAnalyserDispatcher.h"
 using namespace std;
+
 PacketAnalyserDispatcher::PacketAnalyserDispatcher() {
 }
 
@@ -32,23 +33,66 @@ void PacketAnalyserDispatcher::run() {
     cout << "Worker: finished" << endl;
 
 }
+
 void PacketAnalyserDispatcher::runAnalysis() {
     //copy from buffer
     tbb::concurrent_queue<pcappacket> analysisList = packetsBuffer->getAnalisysList();
     int copiedSize = analysisList.unsafe_size();
+    //Generating vector
+
     cout << "I copied " << copiedSize << endl;
+    tbb::concurrent_vector<pcappacket> analysisVector = toVector(analysisList);
+    //std::vector<pcappacket> analysisVector = toSimpleVector(analysisList);
+    cout << "Vector size " << analysisVector.size() << endl;
     //Do analysis
     //pop from buffer
-    /*cout << "Before cleaning" << packetsBuffer->getSize() << endl;
+    cout << "Before cleaning" << packetsBuffer->getSize() << endl;
     boost::posix_time::seconds workTime(1);
-    boost::this_thread::sleep(workTime);*/
+    boost::this_thread::sleep(workTime);
     packetsBuffer->cleanHeadElements(copiedSize);
-    //cout << "After cleaning" << packetsBuffer->getSize() << endl;
+    cout << "After cleaning" << packetsBuffer->getSize() << endl;
 }
+
+tbb::concurrent_vector<pcappacket> PacketAnalyserDispatcher::toVector(tbb::concurrent_queue<pcappacket> &queue) {
+    //copy
+    tbb::concurrent_vector<pcappacket> returnVector;
+    cout << "Copying queue size " << queue.unsafe_size() << endl;
+    pcappacket packet;
+    int i=0;
+    while (queue.try_pop(packet)) {
+        returnVector.push_back(packet);
+    }
+    return returnVector;
+};
+
+//std::vector<pcappacket> PacketAnalyserDispatcher::toSimpleVector(tbb::concurrent_queue<pcappacket>& queue) {
+//    //copy
+//    std::vector<pcappacket> returnVector;
+//    cout << "Copying queue size " << queue.unsafe_size() << endl;
+//    pcappacket packet;
+//    int i=0;
+//    while (queue.try_pop(packet)) {
+//        returnVector.push_back(packet);
+//        cout << "Poping " << i++ << endl;
+//    }
+//
+//    /*for (int i = 0; i < queue.unsafe_size(); i++) {
+//        pcappacket * packet= new pcappacket;
+//        if (queue.try_pop(*packet)) {
+//            returnVector.push_back(*packet);
+//            cout << "Poping " << i << endl;
+//        }else{
+//            cout << "Poping error";
+//        }
+//        cout << "Pop execution" << i << endl;
+//    }*/
+//    return returnVector;
+//};
+
 void PacketAnalyserDispatcher::join() {
     dispatcherThread.join();
     dispatcherThread.detach();
-    cout<<"Detached thread\n";
+    cout << "Detached thread\n";
 }
 
 void PacketAnalyserDispatcher::interrupt() {

@@ -116,6 +116,7 @@ private:
     void print_hex_ascii_line(const u_char *payload, int len, int offset);
     //
     boost::thread analyzerThread;
+    
 };
 
 #endif	/* NETPCAP_H */

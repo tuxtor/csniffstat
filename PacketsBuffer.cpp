@@ -19,7 +19,7 @@ PacketsBuffer::~PacketsBuffer() {
 
 void PacketsBuffer::addPacket(pcappacket packet){
     packetsList.push(packet);
-    cout << packetCount++ << endl;
+    //cout << packetCount++ << endl;
 }
 
 void PacketsBuffer::cleanHeadElements(int size){
@@ -30,14 +30,27 @@ void PacketsBuffer::cleanHeadElements(int size){
 }
 
 int PacketsBuffer::getSize(){
-    return packetsList.unsafe_size();
+    packetsList.unsafe_size();
 };
 
 tbb::concurrent_queue<pcappacket> PacketsBuffer::getPacketsAnalisysSublist(int start, int end){
     
-};
+}
+
+
+pcappacket*  PacketsBuffer::getAnalisysArray(){
+    //copy
+    int actualSize = packetsList.unsafe_size();
+    pcappacket* packetArray = new pcappacket[actualSize];
+
+    for (int i = 0; i < actualSize; i++) {
+         packetsList.try_pop(packetArray[i]);
+    }
+    return packetArray;
+}
 
 tbb::concurrent_queue<pcappacket> PacketsBuffer::getAnalisysList(){
     //copy
     return tbb::concurrent_queue<pcappacket>(packetsList);
 };
+

@@ -24,6 +24,8 @@ public:
 private:
     boost::thread dispatcherThread;
     PacketsBuffer *packetsBuffer;
+    tbb::concurrent_vector<pcappacket> toVector(tbb::concurrent_queue<pcappacket> &queue);
+//    std::vector<pcappacket> toSimpleVector(tbb::concurrent_queue<pcappacket> &queue);
 };
 
 #endif	/* PACKETANALYSERDISPATCHER_H */
