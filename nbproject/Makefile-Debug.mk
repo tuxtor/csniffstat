@@ -39,6 +39,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/PacketsBuffer.o \
 	${OBJECTDIR}/CountersBuffer.o \
 	${OBJECTDIR}/PacketAnalyser.o \
+	${OBJECTDIR}/DataManager.o \
 	${OBJECTDIR}/FilterStatus.o \
 	${OBJECTDIR}/DBData.o \
 	${OBJECTDIR}/XMLProperties.o \
@@ -89,6 +90,11 @@ ${OBJECTDIR}/PacketAnalyser.o: PacketAnalyser.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/PacketAnalyser.o PacketAnalyser.cpp
+
+${OBJECTDIR}/DataManager.o: DataManager.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/DataManager.o DataManager.cpp
 
 ${OBJECTDIR}/FilterStatus.o: FilterStatus.cpp 
 	${MKDIR} -p ${OBJECTDIR}

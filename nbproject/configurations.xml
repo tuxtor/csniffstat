@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>CountersBuffer.h</itemPath>
       <itemPath>DBData.h</itemPath>
+      <itemPath>DataManager.h</itemPath>
       <itemPath>FilterStatus.h</itemPath>
       <itemPath>NetPcap.h</itemPath>
       <itemPath>PacketAnalyser.h</itemPath>
@@ -22,6 +23,7 @@
                    projectFiles="true">
       <itemPath>CountersBuffer.cpp</itemPath>
       <itemPath>DBData.cpp</itemPath>
+      <itemPath>DataManager.cpp</itemPath>
       <itemPath>FilterStatus.cpp</itemPath>
       <itemPath>NetPcap.cpp</itemPath>
       <itemPath>PacketAnalyser.cpp</itemPath>
